@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+// application.php
+
+require __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/vendor/fzaninotto/faker/src/autoload.php';
+
+use Symfony\Component\Console\Application;
+use App\Commands\UserSeeder;
+
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=user_seeder', 'root', 'root');
+}
+catch(PDOException $e){
+    echo 'Echec';
+}
+
+$faker = Faker\Factory::create();
+
+$application = new Application();
+$application->add(new UserSeeder($pdo, $faker));
+
+$application->run();
